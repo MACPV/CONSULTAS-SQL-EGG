@@ -1,0 +1,492 @@
+# Ejercicios MySQL Completos con Enunciados
+
+## Consultas Básicas
+
+1. **Seleccionar empleados con ID específicos**
+   ```sql
+   SELECT * FROM empleado WHERE id IN (1,3,5);
+   ```
+
+2. **Seleccionar productos con ID específicos**
+   ```sql
+   SELECT * FROM productos WHERE id IN (2,4,6);
+   ```
+
+3. **Seleccionar ventas de clientes específicos**
+   ```sql
+   SELECT * FROM ventas WHERE cliente_id IN (1,3,5);
+   ```
+
+4. **Buscar empleados cuyo nombre empieza por 'L'**
+   ```sql
+   SELECT * FROM empleado WHERE nombre LIKE 'L_%';
+   ```
+
+5. **Buscar productos que empiezan por 'Telefono'**
+   ```sql
+   SELECT * FROM productos WHERE nombre LIKE 'Telefono%';
+   ```
+
+6. **Buscar clientes cuya dirección empieza por 'Calle'**
+   ```sql
+   SELECT * FROM clientes WHERE direccion LIKE 'Calle%';
+   ```
+
+## Ordenación y Limitación
+
+7. **Ordenar empleados por salario ascendente**
+   ```sql
+   SELECT * FROM empleado ORDER BY salario ASC;
+   ```
+
+8. **Ordenar productos por nombre descendente**
+   ```sql
+   SELECT * FROM productos ORDER BY nombre DESC;
+   ```
+
+9. **Ordenar ventas por cantidad ascendente**
+   ```sql
+   SELECT * FROM ventas ORDER BY cantidad ASC;
+   ```
+
+10. **Ordenar ventas por precio unitario descendente**
+    ```sql
+    SELECT * FROM ventas ORDER BY precio_unitario DESC;
+    ```
+
+11. **Seleccionar los 5 productos más caros**
+    ```sql
+    SELECT * FROM productos ORDER BY precio DESC LIMIT 5;
+    ```
+
+12. **Seleccionar los primeros 10 empleados ordenados por apellido**
+    ```sql
+    SELECT * FROM empleado ORDER BY apellido ASC LIMIT 10;
+    ```
+
+13. **Seleccionar las 3 ventas con mayor monto total**
+    ```sql
+    SELECT * FROM ventas ORDER BY monto_total DESC LIMIT 3;
+    ```
+
+## Alias y Cálculos
+
+14. **Calcular aumento de salario del 10% para empleados**
+    ```sql
+    SELECT *, salario * 1.1 AS 'Aumento del 10%' FROM empleado;
+    ```
+
+15. **Calcular monto total gastado por cliente**
+    ```sql
+    SELECT cliente_id, SUM(monto_total) AS 'Monto Total Gastado' FROM ventas GROUP BY cliente_id;
+    ```
+
+16. **Concatenar nombre y apellido de empleados**
+    ```sql
+    SELECT CONCAT(nombre,' ', apellido) AS 'Nombre y Apellido' FROM empleado;
+    ```
+
+## Sentencias CASE
+
+17. **Categorizar productos por precio**
+    ```sql
+    SELECT *, 
+    CASE 
+        WHEN precio >= 500 THEN 'Caro' 
+        WHEN precio >= 200 THEN 'Medio' 
+        ELSE 'Barato' 
+    END AS 'Categoria' 
+    FROM productos;
+    ```
+
+18. **Categorizar empleados por edad**
+    ```sql
+    SELECT *, 
+    CASE 
+        WHEN edad <= 30 THEN 'Joven'
+        WHEN edad <= 40 THEN 'Adulto'
+        ELSE 'Mayor'
+    END AS 'Categoria' 
+    FROM empleado;
+    ```
+
+19. **Categorizar ventas por cantidad**
+    ```sql
+    SELECT *, 
+    CASE 
+        WHEN cantidad < 3 THEN 'Poca cantidad'
+        WHEN cantidad < 6 THEN 'Cantidad moderada'
+        ELSE 'Mucha'
+    END AS 'Categoria' 
+    FROM ventas;
+    ```
+
+20. **Categorizar clientes por inicial del nombre**
+    ```sql
+    SELECT nombre, 
+    CASE 
+        WHEN nombre LIKE 'A_%' THEN 'Comienza con A'
+        WHEN nombre LIKE 'M_%' THEN 'Comienza con M'
+        ELSE 'Otros'
+    END AS 'Categoria' 
+    FROM clientes;
+    ```
+
+21. **Categorizar salarios de empleados**
+    ```sql
+    SELECT CONCAT(nombre,' ', apellido) AS 'Nombre y Apellido', salario, 
+    CASE
+        WHEN salario >= 3500 THEN 'Salario alto'
+        WHEN salario >= 3000 THEN 'Salario medio'
+        ELSE 'Salario bajo'
+    END AS 'Categoria Salario' 
+    FROM empleado;
+    ```
+
+## Funciones de Agregación
+
+22. **Obtener salario máximo de empleados**
+    ```sql
+    SELECT MAX(salario) AS 'Salario Maximo' FROM empleado;
+    ```
+
+23. **Obtener cantidad máxima de ventas**
+    ```sql
+    SELECT MAX(cantidad) AS 'Cantidad máxima' FROM ventas;
+    ```
+
+24. **Obtener edad máxima de empleados**
+    ```sql
+    SELECT MAX(edad) AS 'Edad máxima' FROM empleado;
+    ```
+
+25. **Obtener salario mínimo de empleados**
+    ```sql
+    SELECT MIN(salario) AS 'Salario Minimo' FROM empleado;
+    ```
+
+26. **Obtener cantidad mínima de ventas**
+    ```sql
+    SELECT MIN(cantidad) AS 'Cantidad mínima' FROM ventas;
+    ```
+
+27. **Obtener edad mínima de empleados**
+    ```sql
+    SELECT MIN(edad) AS 'Edad mínima' FROM empleado;
+    ```
+
+28. **Contar total de empleados**
+    ```sql
+    SELECT COUNT(*) AS 'Total empleados' FROM empleado;
+    ```
+
+29. **Contar total de ventas**
+    ```sql
+    SELECT COUNT(*) AS 'Total ventas' FROM ventas;
+    ```
+
+30. **Contar productos con precio superior a 500**
+    ```sql
+    SELECT COUNT(*) AS 'Productos con precio superior a 500' FROM productos WHERE precio >= 500;
+    ```
+
+31. **Sumar salarios de todos los empleados**
+    ```sql
+    SELECT SUM(salario) AS 'Salario total' FROM empleado;
+    ```
+
+32. **Calcular monto total de ventas**
+    ```sql
+    SELECT SUM(monto_total) AS 'Total vendido' FROM ventas;
+    ```
+
+33. **Sumar precios de productos con ID par**
+    ```sql
+    SELECT SUM(precio) AS 'Total con ID par' FROM productos WHERE id % 2 = 0;
+    ```
+
+34. **Calcular promedio de salarios**
+    ```sql
+    SELECT ROUND(AVG(salario)) AS 'Promedio Salarios' FROM empleado;
+    ```
+
+35. **Calcular precio promedio de productos**
+    ```sql
+    SELECT AVG(precio) AS 'Precio Promedio' FROM productos;
+    ```
+
+36. **Calcular edad promedio de empleados**
+    ```sql
+    SELECT ROUND(AVG(edad)) AS 'Edad promedio' FROM empleado;
+    ```
+
+## Agrupación
+
+37. **Contar ventas por empleado**
+    ```sql
+    SELECT empleado_id, COUNT(*) AS 'Cantidad total de ventas' FROM ventas GROUP BY empleado_id;
+    ```
+
+38. **Contar productos por precio**
+    ```sql
+    SELECT precio, COUNT(*) AS 'Productos con el mismo precio' FROM productos GROUP BY precio;
+    ```
+
+39. **Contar empleados por departamento**
+    ```sql
+    SELECT departamentos_id, COUNT(*) AS 'Total de empleados por departamento' FROM empleado GROUP BY departamentos_id;
+    ```
+
+## Consultas Multitabla
+
+40. **Mostrar empleados con sus departamentos**
+    ```sql
+    SELECT e.nombre, e.apellido, e.edad, e.salario, d.nombre 
+    FROM empleado AS e, departamentos AS d 
+    WHERE e.departamentos_id = d.id;
+    ```
+
+41. **Mostrar detalles de ventas con información de empleados**
+    ```sql
+    SELECT v.id, v.product_id, v.cliente_id, v.cantidad, v.precio_unitario, v.monto_total, CONCAT(e.nombre,' ', e.apellido) AS 'Empleado' 
+    FROM ventas AS v, empleado AS e 
+    WHERE e.id = v.empleado_id;
+    ```
+
+42. **Mostrar ventas con nombres de productos**
+    ```sql
+    SELECT v.id, p.nombre AS 'Producto', v.cliente_id, v.cantidad, v.precio_unitario, v.monto_total, v.empleado_id 
+    FROM ventas AS v, productos AS p 
+    WHERE v.product_id = p.id;
+    ```
+
+43. **Mostrar ventas con nombres de clientes**
+    ```sql
+    SELECT v.id, v.product_id, c.nombre AS 'Cliente', v.cantidad, v.precio_unitario, v.monto_total, v.empleado_id 
+    FROM ventas AS v, clientes AS c 
+    WHERE v.cliente_id = c.id;
+    ```
+
+44. **Mostrar ventas con detalles de empleados y departamentos**
+    ```sql
+    SELECT v.id, v.product_id, v.cliente_id, v.cantidad, v.precio_unitario, v.monto_total, CONCAT(e.nombre, ' ', e.apellido) AS 'Empleado', d.nombre AS 'Departamento' 
+    FROM ventas AS v, empleado AS e, departamentos AS d 
+    WHERE v.empleado_id = e.id AND e.departamentos_id = d.id;
+    ```
+
+45. **Mostrar ventas con detalles completos**
+    ```sql
+    SELECT 
+        v.id, 
+        p.nombre AS 'Producto', 
+        c.nombre AS 'Cliente', 
+        v.cantidad, 
+        v.precio_unitario, 
+        v.monto_total, 
+        CONCAT(e.nombre, ' ', e.apellido) AS 'Empleado',
+        d.nombre AS 'Departamento'
+    FROM 
+        ventas AS v
+        INNER JOIN productos AS p ON v.product_id = p.id
+        INNER JOIN clientes AS c ON v.cliente_id = c.id
+        INNER JOIN empleado AS e ON v.empleado_id = e.id
+        INNER JOIN departamentos AS d ON e.departamentos_id = d.id;
+    ```
+
+46. **Obtener salario máximo por departamento**
+    ```sql
+    SELECT MAX(e.salario) AS 'Salario MAX', d.nombre AS 'Departamento' 
+    FROM empleado AS e 
+    INNER JOIN departamentos AS d ON e.departamentos_id = d.id 
+    GROUP BY d.nombre;
+    ```
+
+## Consultas Avanzadas
+
+47. **Calcular total vendido por departamento**
+    ```sql
+    SELECT SUM(v.monto_total) AS 'Total vendido', d.nombre AS 'Departamento' 
+    FROM ventas AS v 
+        INNER JOIN empleado AS e ON v.empleado_id = e.id 
+        INNER JOIN departamentos AS d ON e.departamentos_id = d.id 
+    GROUP BY d.nombre;
+    ```
+
+48. **Obtener edad mínima por departamento**
+    ```sql
+    SELECT MIN(e.edad) AS 'Edad', d.nombre AS 'Departamento' 
+    FROM empleado AS e 
+        INNER JOIN departamentos AS d ON e.departamentos_id = d.id 
+    GROUP BY d.nombre;
+    ```
+
+49. **Categorizar ventas por volumen**
+    ```sql
+    SELECT v.id, v.cantidad, 
+    CASE
+        WHEN v.cantidad < 5 THEN 'Bajo'
+        WHEN v.cantidad < 8 THEN 'Medio'
+        ELSE 'Alto' 
+    END AS 'Volumen',
+    p.nombre AS 'Producto'
+    FROM ventas AS v 
+        INNER JOIN productos AS p ON v.product_id = p.id;
+    ```
+
+50. **Encontrar cliente con mayor compra total**
+    ```sql
+    SELECT SUM(v.monto_total) AS 'Compra Mayor', c.nombre AS 'Cliente'
+    FROM clientes AS c 
+    INNER JOIN ventas AS v ON c.id = v.cliente_id
+    GROUP BY c.nombre 
+    HAVING SUM(v.monto_total) = (
+        SELECT MAX(total_compras)
+        FROM (
+            SELECT SUM(monto_total) AS total_compras
+            FROM ventas
+            GROUP BY cliente_id
+        ) AS subquery
+    );
+    ```
+
+51. **Calcular promedio de precio unitario por empleado**
+    ```sql
+    SELECT AVG(v.precio_unitario) AS 'Promedio vendido', CONCAT(e.nombre,' ',e.apellido) AS 'Empleado' 
+    FROM ventas AS v 
+    INNER JOIN empleado AS e ON v.empleado_id = e.id 
+    GROUP BY CONCAT(e.nombre,' ',e.apellido) 
+    ORDER BY 'Promedio vendido' DESC;
+    ```
+
+52. **Encontrar salario más bajo por departamento**
+    ```sql
+    SELECT MIN(e.salario) AS 'Salario más bajo', d.nombre AS 'Departamento'
+    FROM empleado AS e 
+    INNER JOIN departamentos AS d ON e.departamentos_id = d.id 
+    GROUP BY d.nombre;
+    ```
+
+53. **Encontrar departamento con mayor salario promedio para empleados mayores de 30 años**
+    ```sql
+    SELECT 
+        d.nombre AS 'Departamento',
+        AVG(e.salario) AS 'Salario Promedio'
+    FROM 
+        empleado AS e
+        INNER JOIN departamentos AS d ON e.departamentos_id = d.id
+    WHERE 
+        e.edad > 30
+    GROUP BY 
+        d.id, d.nombre
+    HAVING 
+        AVG(e.salario) > 3320
+    ORDER BY 
+        'Salario Promedio' DESC
+    LIMIT 1;
+    ```
+
+## Consultas en Base de Datos NBA
+
+54. **Listar jugadores centros pesados**
+    ```sql
+    SELECT * FROM jugadores WHERE Posicion = 'C' AND Peso > 200 ORDER BY Peso;
+    ```
+
+55. **Mostrar equipos de la Conferencia Este**
+    ```sql
+    SELECT * FROM equipos WHERE Conferencia = 'East';
+    ```
+
+56. **Listar equipos cuya ciudad empieza con 'C'**
+    ```sql
+    SELECT * FROM equipos WHERE Ciudad LIKE 'C_%' ORDER BY Nombre;
+    ```
+
+
+57. **Obtener estadísticas completas de jugadores para la temporada 04/05**
+    ```sql
+    SELECT temporada, j.Nombre, Puntos_por_partido, Asistencias_por_partido, Tapones_por_partido, Rebotes_por_partido
+    FROM estadisticas AS e INNER JOIN jugadores AS j ON e.jugador = j.codigo
+    WHERE e.temporada = '04/05';
+    ```
+
+58. **Calcular puntos totales por jugador y temporada (primeros 10)**
+    ```sql
+    SELECT temporada, j.Nombre, ROUND(SUM(Puntos_por_partido),2) AS 'Puntos totales'
+    FROM estadisticas AS e INNER JOIN jugadores AS j ON e.jugador = j.codigo
+    GROUP BY temporada, j.Nombre
+    ORDER BY 'Puntos totales' DESC
+    LIMIT 10;
+    ```
+
+59. **Encontrar el equipo del jugador más bajo**
+    ```sql
+    SELECT e.Nombre, e.Conferencia, e.Division 
+    FROM jugadores AS j INNER JOIN equipos AS e ON j.Nombre_equipo = e.Nombre
+    ORDER BY j.Altura ASC
+    LIMIT 1;
+    ```
+
+60. **Listar los 10 partidos con mayor diferencia de puntos**
+    ```sql
+    SELECT equipo_local, equipo_visitante, ABS(puntos_local - puntos_visitante) AS Diferencia_puntos
+    FROM partidos 
+    ORDER BY Diferencia_puntos DESC
+    LIMIT 10;
+    ```
+
+61. **Encontrar el equipo con la mayor diferencia de puntos en la temporada 00/01**
+    ```sql
+    SELECT eq.Nombre AS 'Nombre equipo', ABS(puntos_local - puntos_visitante) AS Diferencia_puntos
+    FROM estadisticas AS e 
+    INNER JOIN jugadores AS j ON e.jugador = j.codigo 
+    INNER JOIN equipos AS eq ON j.Nombre_equipo = eq.Nombre
+    INNER JOIN partidos AS p ON p.equipo_local = eq.Nombre OR p.equipo_visitante = eq.Nombre
+    WHERE e.temporada = '00/01' 
+    ORDER BY Diferencia_puntos DESC
+    LIMIT 1;
+    ```
+
+62. **Calcular el porcentaje de victorias de los 10 mejores equipos en la temporada 98/99**
+    ```sql
+    SELECT equipo, 
+           ROUND((victorias / total_partidos) * 100, 2) AS porcentaje_victorias
+    FROM (
+        SELECT equipo, 
+               SUM(victorias) AS victorias, 
+               COUNT(*) AS total_partidos
+        FROM (
+            -- Partidos jugados como equipo local
+            SELECT equipo_local AS equipo,
+                   CASE 
+                       WHEN puntos_local > puntos_visitante THEN 1 
+                       ELSE 0 
+                   END AS victorias
+            FROM partidos
+            WHERE temporada = '98/99'
+            
+            UNION ALL
+            
+            -- Partidos jugados como equipo visitante
+            SELECT equipo_visitante AS equipo,
+                   CASE 
+                       WHEN puntos_visitante > puntos_local THEN 1 
+                       ELSE 0 
+                   END AS victorias
+            FROM partidos
+            WHERE temporada = '98/99'
+        ) AS todos_partidos
+        GROUP BY equipo
+    ) AS resultados
+    ORDER BY porcentaje_victorias DESC
+    LIMIT 10;
+    ```
+
+63. **Contar ventas por empleado y departamento**
+    ```sql
+    SELECT d.nombre AS 'Departamento', COUNT(v.id) AS 'Número de ventas'
+    FROM ventas AS v 
+    INNER JOIN empleado AS e ON v.empleado_id = e.id
+    INNER JOIN departamentos AS d ON e.departamentos_id = d.id 
+    GROUP BY d.nombre;
+    ```
